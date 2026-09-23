@@ -1,0 +1,163 @@
+// MongoDB Queries
+
+// Start MongoDB
+// mongosh
+
+// Create / Switch to Database
+use database1
+
+// Create Employee Collection
+db.employee
+
+// insertOne()
+// Used to store a single document in the specified collection.
+db.employee.insertOne({
+  eno: "E1",
+  name: "Ahamed",
+  dob: "12.04.2000",
+  job: "Manager",
+  salary: "3000"
+})
+
+// insertMany()
+// Used to store multiple documents in the specified collection.
+db.employee.insertMany([
+  {
+    eno: "E2",
+    name: "David",
+    dob: "18.11.2001",
+    job: "Clerk",
+    salary: "1600"
+  },
+  {
+    eno: "E3",
+    name: "Rekha",
+    dob: "02.01.2003",
+    job: "Clerk",
+    salary: "1500"
+  },
+  {
+    eno: "E4",
+    name: "Mani",
+    dob: "11.09.2001",
+    job: "Accountant",
+    salary: "2000"
+  }
+])
+
+// updateOne()
+// Used to update a single document in the collection.
+db.employee.updateOne(
+  { eno: "E4" },
+  { $set: { salary: "2200" } }
+)
+
+// findOne()
+// Used to retrieve the first document in the collection.
+db.employee.findOne({})
+
+// Retrieve a document using a condition
+db.employee.findOne({
+  name: "David"
+})
+
+// Retrieve all documents in the collection
+db.employee.find()
+
+// Delete one document
+db.employee.deleteOne({
+  eno: "E1"
+})
+
+// Delete multiple documents
+db.employee.deleteMany({
+  dept: 10
+})
+
+// Sorting
+// Ascending order
+db.employee.find().sort({
+  name: 1
+})
+
+// Descending order
+db.employee.find().sort({
+  name: -1
+})
+
+// Aggregate Functions
+
+// Count
+// Used to count the number of documents in the collection.
+db.employee.aggregate([
+  {
+    $group: {
+      _id: null,
+      count: { $sum: 1 }
+    }
+  }
+])
+
+// Minimum Salary
+// Find the least salary of employee in the collection.
+db.employee.aggregate([
+  {
+    $group: {
+      _id: null,
+      minSalary: { $min: "$salary" }
+    }
+  }
+])
+
+// Maximum Salary
+// Used to find the highest salary of employee in the collection.
+db.employee.aggregate([
+  {
+    $group: {
+      _id: null,
+      maxSalary: { $max: "$salary" }
+    }
+  }
+])
+
+// Sum
+// Used to find the total salary of all employees.
+db.employee.aggregate([
+  {
+    $group: {
+      _id: null,
+      totalSalary: { $sum: "$salary" }
+    }
+  }
+])
+
+// Job-wise Total Salary
+db.employee.aggregate([
+  {
+    $group: {
+      _id: "job",
+      jobtotalSalary: { $sum: "$salary" }
+    }
+  }
+])
+
+// Average Salary
+// Used to find the average salary of all employees.
+db.employee.aggregate([
+  {
+    $group: {
+      _id: null,
+      averageSalary: { $avg: "$salary" }
+    }
+  }
+])
+
+// Job-wise Average Salary
+db.employee.aggregate([
+  {
+    $group: {
+      _id: "job",
+      jobaverageSalary: { $avg: "$salary" }
+    }
+  }
+])
