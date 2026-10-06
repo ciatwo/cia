@@ -35,3 +35,6 @@ echo '<script>alert("You are elgible to watch");</script>';
 }
 
 ?>
+
+</body>
+</html>
